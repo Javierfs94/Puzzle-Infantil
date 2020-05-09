@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener cambiarIzquierda = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            cambiarPieza(piezasIzquierda, pieza1, botonIzquierda);
+            cambiarPieza(piezasIzquierda, botonIzquierda, 1);
 
             String[] pieza1Partida = pieza1.split("_");
             String[] pieza2Partida = pieza2.split("_");
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener cambiarCentro = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            cambiarPieza(piezasCentrales, pieza2, botonCentro);
+            cambiarPieza(piezasCentrales, botonCentro, 2);
 
             String[] pieza1Partida = pieza1.split("_");
             String[] pieza2Partida = pieza2.split("_");
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener cambiarDerecha = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-      cambiarPieza(piezasDerecha, pieza3, botonDerecha);
+            cambiarPieza(piezasDerecha, botonDerecha, 3);
 
             String[] pieza1Partida = pieza1.split("_");
             String[] pieza2Partida = pieza2.split("_");
@@ -109,22 +109,50 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-
-    private void cambiarPieza(ArrayList<String> piezas, String pieza, Button boton){
-        int indice = piezas.indexOf(pieza);
+    private void cambiarPieza(ArrayList<String> piezas, Button boton, int posicion){
+        int indice;
         int resID;
-
-        if (indice == (piezas.size()-1)){
-            pieza = piezas.get(0);
-            resID = getResources().getIdentifier(pieza , "drawable", getPackageName());
-            boton.setBackgroundResource(resID);
-        }else {
-            pieza = piezas.get(indice + 1);
-            resID = getResources().getIdentifier(pieza , "drawable", getPackageName());
-            boton.setBackgroundResource(resID);
+        switch(posicion) {
+            case 1:
+                indice = piezas.indexOf(pieza1);
+                if (indice == (piezas.size()-1)){
+                    pieza1 = piezas.get(0);
+                    resID = getResources().getIdentifier(pieza1 , "drawable", getPackageName());
+                    boton.setBackgroundResource(resID);
+                }else {
+                    pieza1 = piezas.get(indice + 1);
+                    resID = getResources().getIdentifier(pieza1 , "drawable", getPackageName());
+                    boton.setBackgroundResource(resID);
+                }
+                break;
+            case 2:
+                indice = piezas.indexOf(pieza2);
+                if (indice == (piezas.size()-1)){
+                    pieza2 = piezas.get(0);
+                    resID = getResources().getIdentifier(pieza2 , "drawable", getPackageName());
+                    boton.setBackgroundResource(resID);
+                }else {
+                    pieza2 = piezas.get(indice + 1);
+                    resID = getResources().getIdentifier(pieza2 , "drawable", getPackageName());
+                    boton.setBackgroundResource(resID);
+                }
+                break;
+            case 3:
+                indice = piezas.indexOf(pieza3);
+                if (indice == (piezas.size()-1)){
+                    pieza3 = piezas.get(0);
+                    resID = getResources().getIdentifier(pieza3 , "drawable", getPackageName());
+                    boton.setBackgroundResource(resID);
+                }else {
+                    pieza3 = piezas.get(indice + 1);
+                    resID = getResources().getIdentifier(pieza3 , "drawable", getPackageName());
+                    boton.setBackgroundResource(resID);
+                }
+                break;
         }
     }
 
+        
     private void inicializarPiezas(ArrayList<String> piezasIzquierda, ArrayList<String> piezasCentro, ArrayList<String> piezasDerecha ){
         Random random = new Random();
         pieza1 = piezasIzquierda.get(random.nextInt(piezasIzquierda.size()));
