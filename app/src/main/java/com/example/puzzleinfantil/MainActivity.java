@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> piezasCentrales = new ArrayList<String>();
     ArrayList<String> piezasDerecha = new ArrayList<String>();
 
+    Button botonIzquierda;
+    Button botonCentro ;
+    Button botonDerecha;
+
     String pieza1;
     String pieza2;
     String pieza3;
@@ -27,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button botonIzquierda = (Button) findViewById(R.id.buttonIzquierda);
-        final Button botonCentro = (Button) findViewById(R.id.buttonCentro);
-        final Button botonDerecha = (Button) findViewById(R.id.buttonDerecha);
+        botonIzquierda = (Button) findViewById(R.id.buttonIzquierda);
+        botonCentro = (Button) findViewById(R.id.buttonCentro);
+        botonDerecha = (Button) findViewById(R.id.buttonDerecha);
 
         Field[] drawablesFields = com.example.puzzleinfantil.R.drawable.class.getFields();
 
@@ -38,15 +41,12 @@ public class MainActivity extends AppCompatActivity {
                String[] cadenas = field.getName().split("_");
                 if (cadenas[0].equals("puzzle")){
                     if (cadenas[2].equals("1")){
-                        Log.i("LOG_TAG", field.getName());
                         piezasIzquierda.add(field.getName());
                     }
                     if (cadenas[2].equals("2")){
-                        Log.i("LOG_TAG", field.getName());
                         piezasCentrales.add(field.getName());
                     }
                     if (cadenas[2].equals("3")){
-                        Log.i("LOG_TAG", field.getName());
                         piezasDerecha.add(field.getName());
                     }
                 }
@@ -60,22 +60,14 @@ public class MainActivity extends AppCompatActivity {
         botonIzquierda.setOnClickListener(cambiarIzquierda);
         botonCentro.setOnClickListener(cambiarCentro);
         botonDerecha.setOnClickListener(cambiarDerecha);
-
-
-
-
-
     }
 
     private View.OnClickListener cambiarIzquierda = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final Button botonIzquierda = (Button) findViewById(R.id.buttonIzquierda);
             int indice = piezasIzquierda.indexOf(pieza1);
             final String TAG = "MyActivity";
             int resID;
-
-
 
             if (indice == (piezasIzquierda.size()-1)){
                 pieza1 = piezasIzquierda.get(0);
@@ -99,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener cambiarCentro = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final Button botonCentro = (Button) findViewById(R.id.buttonCentro);
             int indice = piezasCentrales.indexOf(pieza2);
             final String TAG = "MyActivity";
             int resID;
@@ -127,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener cambiarDerecha = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final Button botonDerecha = (Button) findViewById(R.id.buttonDerecha);
             int indice = piezasDerecha.indexOf(pieza3);
             final String TAG = "MyActivity";
             int resID;
@@ -158,16 +148,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inicializarPiezas(ArrayList<String> piezasIzquierda, ArrayList<String> piezasCentro, ArrayList<String> piezasDerecha ){
-        final Button botonIzquierdo = (Button) findViewById(R.id.buttonIzquierda);
-        final Button botonCentro = (Button) findViewById(R.id.buttonCentro);
-        final Button botonDerecha = (Button) findViewById(R.id.buttonDerecha);
-
         Random random = new Random();
         pieza1 = piezasIzquierda.get(random.nextInt(piezasIzquierda.size()));
         pieza2 = piezasCentro.get(random.nextInt(piezasCentro.size()));
         pieza3 = piezasDerecha.get(random.nextInt(piezasDerecha.size()));
 
-        botonIzquierdo.setBackgroundResource(getResources().getIdentifier(pieza1, "drawable", getPackageName()));
+        botonIzquierda.setBackgroundResource(getResources().getIdentifier(pieza1, "drawable", getPackageName()));
         botonCentro.setBackgroundResource(getResources().getIdentifier(pieza2, "drawable", getPackageName()));
         botonDerecha.setBackgroundResource(getResources().getIdentifier(pieza3, "drawable", getPackageName()));
 
