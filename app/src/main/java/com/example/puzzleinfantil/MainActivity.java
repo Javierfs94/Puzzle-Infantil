@@ -57,34 +57,25 @@ public class MainActivity extends AppCompatActivity {
 
         inicializarPiezas(piezasIzquierda, piezasCentrales, piezasDerecha);
 
-        botonIzquierda.setOnClickListener(cambiarIzquierda);
-        botonCentro.setOnClickListener(cambiarCentro);
-        botonDerecha.setOnClickListener(cambiarDerecha);
+        botonIzquierda.setOnClickListener(clickPieza);
+        botonCentro.setOnClickListener(clickPieza);
+        botonDerecha.setOnClickListener(clickPieza);
     }
 
-    private View.OnClickListener cambiarIzquierda = new View.OnClickListener() {
+    private View.OnClickListener clickPieza = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            cambiarPieza(piezasIzquierda, botonIzquierda, 1);
-
-            comprobarVictoria();
-        }
-    };
-
-    private View.OnClickListener cambiarCentro = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            cambiarPieza(piezasCentrales, botonCentro, 2);
-
-            comprobarVictoria();
-        }
-    };
-
-    private View.OnClickListener cambiarDerecha = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            cambiarPieza(piezasDerecha, botonDerecha, 3);
-
+            switch(v.getId()){
+                case R.id.buttonIzquierda:
+                    cambiarPieza(piezasIzquierda, botonIzquierda, 1);
+                    break;
+                case R.id.buttonCentro:
+                    cambiarPieza(piezasCentrales, botonCentro, 2);
+                    break;
+                case R.id.buttonDerecha:
+                    cambiarPieza(piezasDerecha, botonDerecha, 3);
+                    break;
+            }
             comprobarVictoria();
         }
     };
