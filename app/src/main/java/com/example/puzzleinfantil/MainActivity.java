@@ -65,19 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener cambiarIzquierda = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int indice = piezasIzquierda.indexOf(pieza1);
-            final String TAG = "MyActivity";
-            int resID;
-
-            if (indice == (piezasIzquierda.size()-1)){
-                pieza1 = piezasIzquierda.get(0);
-                resID = getResources().getIdentifier(pieza1 , "drawable", getPackageName());
-                botonIzquierda.setBackgroundResource(resID);
-            }else {
-                pieza1 = piezasIzquierda.get(indice + 1);
-                resID = getResources().getIdentifier(pieza1 , "drawable", getPackageName());
-                botonIzquierda.setBackgroundResource(resID);
-            }
+            cambiarPieza(piezasIzquierda, pieza1, botonIzquierda);
 
             String[] pieza1Partida = pieza1.split("_");
             String[] pieza2Partida = pieza2.split("_");
@@ -91,19 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener cambiarCentro = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int indice = piezasCentrales.indexOf(pieza2);
-            final String TAG = "MyActivity";
-            int resID;
-
-            if (indice == (piezasCentrales.size()-1)){
-                pieza2 = piezasCentrales.get(0);
-                resID = getResources().getIdentifier(pieza2 , "drawable", getPackageName());
-                botonCentro.setBackgroundResource(resID);
-            }else {
-                pieza2 = piezasCentrales.get(indice + 1);
-                resID = getResources().getIdentifier(pieza2 , "drawable", getPackageName());
-                botonCentro.setBackgroundResource(resID);
-            }
+            cambiarPieza(piezasCentrales, pieza2, botonCentro);
 
             String[] pieza1Partida = pieza1.split("_");
             String[] pieza2Partida = pieza2.split("_");
@@ -111,27 +87,13 @@ public class MainActivity extends AppCompatActivity {
             if (pieza1Partida[1].equals(pieza2Partida[1]) && pieza1Partida[1].equals(pieza3Partida[1])){
                 lanzar();
             }
-
         }
     };
 
     private View.OnClickListener cambiarDerecha = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int indice = piezasDerecha.indexOf(pieza3);
-            final String TAG = "MyActivity";
-            int resID;
-
-
-            if (indice == (piezasDerecha.size()-1)){
-                pieza3 = piezasDerecha.get(0);
-                resID = getResources().getIdentifier(pieza3 , "drawable", getPackageName());
-                botonDerecha.setBackgroundResource(resID);
-            }else {
-                pieza3 = piezasDerecha.get(indice + 1);
-                resID = getResources().getIdentifier(pieza3 , "drawable", getPackageName());
-                botonDerecha.setBackgroundResource(resID);
-            }
+      cambiarPieza(piezasDerecha, pieza3, botonDerecha);
 
             String[] pieza1Partida = pieza1.split("_");
             String[] pieza2Partida = pieza2.split("_");
@@ -145,6 +107,22 @@ public class MainActivity extends AppCompatActivity {
     private void lanzar() {
         Intent i = new Intent(this, Victory.class );
         startActivity(i);
+    }
+
+
+    private void cambiarPieza(ArrayList<String> piezas, String pieza, Button boton){
+        int indice = piezas.indexOf(pieza);
+        int resID;
+
+        if (indice == (piezas.size()-1)){
+            pieza = piezas.get(0);
+            resID = getResources().getIdentifier(pieza , "drawable", getPackageName());
+            boton.setBackgroundResource(resID);
+        }else {
+            pieza = piezas.get(indice + 1);
+            resID = getResources().getIdentifier(pieza , "drawable", getPackageName());
+            boton.setBackgroundResource(resID);
+        }
     }
 
     private void inicializarPiezas(ArrayList<String> piezasIzquierda, ArrayList<String> piezasCentro, ArrayList<String> piezasDerecha ){
