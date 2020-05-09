@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             cambiarPieza(piezasCentrales, botonCentro, 2);
-            
+
             comprobarVictoria();
         }
     };
