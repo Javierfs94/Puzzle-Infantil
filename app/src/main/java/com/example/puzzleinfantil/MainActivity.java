@@ -2,27 +2,25 @@ package com.example.puzzleinfantil;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    // TODO: Cambiar a array dinamico
     ArrayList<String> piezasIzquierda = new ArrayList<String>();
     ArrayList<String> piezasCentrales = new ArrayList<String>();
     ArrayList<String> piezasDerecha = new ArrayList<String>();
 
-    String pieza1 = "puzzle_1_1";
-    String pieza2 = "puzzle_1_2";
-    String pieza3 = "puzzle_1_3";
-
-    // TODO Luego tienes que hacer dos cosas (LUEGO):
-    //  - Inicializar el array de piezas de forma dinámica, leyendo del storage los ficheros
-    //  - Inicializar las tres piezas a 3 random de ese array
+    String pieza1;
+    String pieza2;
+    String pieza3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,23 +31,38 @@ public class MainActivity extends AppCompatActivity {
         final Button botonCentro = (Button) findViewById(R.id.buttonCentro);
         final Button botonDerecha = (Button) findViewById(R.id.buttonDerecha);
 
-        botonIzquierda.setBackgroundResource(R.drawable.puzzle_2_1);
-        botonCentro.setBackgroundResource(R.drawable.puzzle_1_2);
-        botonDerecha.setBackgroundResource(R.drawable.puzzle_1_3);
+        Field[] drawablesFields = com.example.puzzleinfantil.R.drawable.class.getFields();
 
+        for (Field field : drawablesFields) {
+            try {
+               String[] cadenas = field.getName().split("_");
+                if (cadenas[0].equals("puzzle")){
+                    if (cadenas[2].equals("1")){
+                        Log.i("LOG_TAG", field.getName());
+                        piezasIzquierda.add(field.getName());
+                    }
+                    if (cadenas[2].equals("2")){
+                        Log.i("LOG_TAG", field.getName());
+                        piezasCentrales.add(field.getName());
+                    }
+                    if (cadenas[2].equals("3")){
+                        Log.i("LOG_TAG", field.getName());
+                        piezasDerecha.add(field.getName());
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
-        piezasIzquierda.add("puzzle_1_1");
-        piezasIzquierda.add("puzzle_2_1");
-
-        piezasCentrales.add("puzzle_1_2");
-        piezasCentrales.add("puzzle_2_2");
-
-        piezasDerecha.add("puzzle_1_3");
-        piezasDerecha.add("puzzle_2_3");
+        inicializarPiezas(piezasIzquierda, piezasCentrales, piezasDerecha);
 
         botonIzquierda.setOnClickListener(cambiarIzquierda);
         botonCentro.setOnClickListener(cambiarCentro);
         botonDerecha.setOnClickListener(cambiarDerecha);
+
+
+
 
 
     }
@@ -62,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
             final String TAG = "MyActivity";
             int resID;
 
+
+
             if (indice == (piezasIzquierda.size()-1)){
                 pieza1 = piezasIzquierda.get(0);
                 resID = getResources().getIdentifier(pieza1 , "drawable", getPackageName());
@@ -71,12 +86,40 @@ public class MainActivity extends AppCompatActivity {
                 resID = getResources().getIdentifier(pieza1 , "drawable", getPackageName());
                 botonIzquierda.setBackgroundResource(resID);
             }
+
+            String[] pieza1Partida = pieza1.split("_");
+            String[] pieza2Partida = pieza2.split("_");
+            String[] pieza3Partida = pieza3.split("_");
+            if (pieza1Partida[1].equals(pieza2Partida[1]) && pieza1Partida[1].equals(pieza3Partida[1])){
+               lanzar();
+            }
         }
     };
 
     private View.OnClickListener cambiarCentro = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            final Button botonCentro = (Button) findViewById(R.id.buttonCentro);
+            int indice = piezasCentrales.indexOf(pieza2);
+            final String TAG = "MyActivity";
+            int resID;
+
+            if (indice == (piezasCentrales.size()-1)){
+                pieza2 = piezasCentrales.get(0);
+                resID = getResources().getIdentifier(pieza2 , "drawable", getPackageName());
+                botonCentro.setBackgroundResource(resID);
+            }else {
+                pieza2 = piezasCentrales.get(indice + 1);
+                resID = getResources().getIdentifier(pieza2 , "drawable", getPackageName());
+                botonCentro.setBackgroundResource(resID);
+            }
+
+            String[] pieza1Partida = pieza1.split("_");
+            String[] pieza2Partida = pieza2.split("_");
+            String[] pieza3Partida = pieza3.split("_");
+            if (pieza1Partida[1].equals(pieza2Partida[1]) && pieza1Partida[1].equals(pieza3Partida[1])){
+                lanzar();
+            }
 
         }
     };
@@ -84,9 +127,50 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener cambiarDerecha = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            final Button botonDerecha = (Button) findViewById(R.id.buttonDerecha);
+            int indice = piezasDerecha.indexOf(pieza3);
+            final String TAG = "MyActivity";
+            int resID;
 
+
+            if (indice == (piezasDerecha.size()-1)){
+                pieza3 = piezasDerecha.get(0);
+                resID = getResources().getIdentifier(pieza3 , "drawable", getPackageName());
+                botonDerecha.setBackgroundResource(resID);
+            }else {
+                pieza3 = piezasDerecha.get(indice + 1);
+                resID = getResources().getIdentifier(pieza3 , "drawable", getPackageName());
+                botonDerecha.setBackgroundResource(resID);
+            }
+
+            String[] pieza1Partida = pieza1.split("_");
+            String[] pieza2Partida = pieza2.split("_");
+            String[] pieza3Partida = pieza3.split("_");
+            if (pieza1Partida[1].equals(pieza2Partida[1]) && pieza1Partida[1].equals(pieza3Partida[1])){
+                lanzar();
+            }
         }
     };
 
+    private void lanzar() {
+        Intent i = new Intent(this, Victory.class );
+        startActivity(i);
+    }
+
+    private void inicializarPiezas(ArrayList<String> piezasIzquierda, ArrayList<String> piezasCentro, ArrayList<String> piezasDerecha ){
+        final Button botonIzquierdo = (Button) findViewById(R.id.buttonIzquierda);
+        final Button botonCentro = (Button) findViewById(R.id.buttonCentro);
+        final Button botonDerecha = (Button) findViewById(R.id.buttonDerecha);
+
+        Random random = new Random();
+        pieza1 = piezasIzquierda.get(random.nextInt(piezasIzquierda.size()));
+        pieza2 = piezasCentro.get(random.nextInt(piezasCentro.size()));
+        pieza3 = piezasDerecha.get(random.nextInt(piezasDerecha.size()));
+
+        botonIzquierdo.setBackgroundResource(getResources().getIdentifier(pieza1, "drawable", getPackageName()));
+        botonCentro.setBackgroundResource(getResources().getIdentifier(pieza2, "drawable", getPackageName()));
+        botonDerecha.setBackgroundResource(getResources().getIdentifier(pieza3, "drawable", getPackageName()));
+
+    }
 
 }
