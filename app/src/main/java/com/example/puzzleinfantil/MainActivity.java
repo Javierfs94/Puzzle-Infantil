@@ -67,12 +67,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             cambiarPieza(piezasIzquierda, botonIzquierda, 1);
 
-            String[] pieza1Partida = pieza1.split("_");
-            String[] pieza2Partida = pieza2.split("_");
-            String[] pieza3Partida = pieza3.split("_");
-            if (pieza1Partida[1].equals(pieza2Partida[1]) && pieza1Partida[1].equals(pieza3Partida[1])){
-               lanzar();
-            }
+            comprobarVictoria();
         }
     };
 
@@ -80,13 +75,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             cambiarPieza(piezasCentrales, botonCentro, 2);
-
-            String[] pieza1Partida = pieza1.split("_");
-            String[] pieza2Partida = pieza2.split("_");
-            String[] pieza3Partida = pieza3.split("_");
-            if (pieza1Partida[1].equals(pieza2Partida[1]) && pieza1Partida[1].equals(pieza3Partida[1])){
-                lanzar();
-            }
+            
+            comprobarVictoria();
         }
     };
 
@@ -95,14 +85,18 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             cambiarPieza(piezasDerecha, botonDerecha, 3);
 
-            String[] pieza1Partida = pieza1.split("_");
-            String[] pieza2Partida = pieza2.split("_");
-            String[] pieza3Partida = pieza3.split("_");
-            if (pieza1Partida[1].equals(pieza2Partida[1]) && pieza1Partida[1].equals(pieza3Partida[1])){
-                lanzar();
-            }
+            comprobarVictoria();
         }
     };
+
+    private void comprobarVictoria() {
+        String[] pieza1Partida = pieza1.split("_");
+        String[] pieza2Partida = pieza2.split("_");
+        String[] pieza3Partida = pieza3.split("_");
+        if (pieza1Partida[1].equals(pieza2Partida[1]) && pieza1Partida[1].equals(pieza3Partida[1])) {
+            lanzar();
+        }
+    }
 
     private void lanzar() {
         Intent i = new Intent(this, Victory.class );
@@ -110,19 +104,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cambiarPieza(ArrayList<String> piezas, Button boton, int posicion){
-        int indice;
-        int resID;
+        int indice = 0;
+        int resID = 0;
         switch(posicion) {
             case 1:
                 indice = piezas.indexOf(pieza1);
                 if (indice == (piezas.size()-1)){
                     pieza1 = piezas.get(0);
                     resID = getResources().getIdentifier(pieza1 , "drawable", getPackageName());
-                    boton.setBackgroundResource(resID);
                 }else {
                     pieza1 = piezas.get(indice + 1);
                     resID = getResources().getIdentifier(pieza1 , "drawable", getPackageName());
-                    boton.setBackgroundResource(resID);
                 }
                 break;
             case 2:
@@ -130,11 +122,9 @@ public class MainActivity extends AppCompatActivity {
                 if (indice == (piezas.size()-1)){
                     pieza2 = piezas.get(0);
                     resID = getResources().getIdentifier(pieza2 , "drawable", getPackageName());
-                    boton.setBackgroundResource(resID);
                 }else {
                     pieza2 = piezas.get(indice + 1);
                     resID = getResources().getIdentifier(pieza2 , "drawable", getPackageName());
-                    boton.setBackgroundResource(resID);
                 }
                 break;
             case 3:
@@ -142,17 +132,17 @@ public class MainActivity extends AppCompatActivity {
                 if (indice == (piezas.size()-1)){
                     pieza3 = piezas.get(0);
                     resID = getResources().getIdentifier(pieza3 , "drawable", getPackageName());
-                    boton.setBackgroundResource(resID);
                 }else {
                     pieza3 = piezas.get(indice + 1);
                     resID = getResources().getIdentifier(pieza3 , "drawable", getPackageName());
-                    boton.setBackgroundResource(resID);
                 }
                 break;
         }
+
+        boton.setBackgroundResource(resID);
+
     }
 
-        
     private void inicializarPiezas(ArrayList<String> piezasIzquierda, ArrayList<String> piezasCentro, ArrayList<String> piezasDerecha ){
         Random random = new Random();
         pieza1 = piezasIzquierda.get(random.nextInt(piezasIzquierda.size()));
